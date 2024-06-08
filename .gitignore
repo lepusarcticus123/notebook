@@ -1,0 +1,30 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# 忽略 MySQL 数据库文件和套接字文件
+mysql/db/*.cnf
+mysql/db/*.index
+mysql/db/ib_buffer_pool
+mysql/db/mysql.sock
