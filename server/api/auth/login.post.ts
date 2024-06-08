@@ -33,10 +33,10 @@ export default defineEventHandler(async (event) => {
         //释放连接
         await con.end()
         //如果已经注册过，并且密码正确，生成token，并返回客户端
-        let secret='egaygfashb'//密钥
+        let secret='wlyskzxfnr'//密钥
         let token=jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60),
-            data: {data:{uid:rows[0].id}}
+            exp: Math.floor(Date.now() / 1000) + (60 * 60),//当前时间再加一小时
+            data: {data:{uid:rows[0].id}}//将用户ID放入token的载荷中
           }, secret);
         //返回
         return responseJson(0, '登录成功', {
