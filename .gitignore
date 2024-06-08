@@ -28,3 +28,4 @@ mysql/db/*.cnf
 mysql/db/*.index
 mysql/db/ib_buffer_pool
 mysql/db/mysql.sock
+mysql/db/ca-key.pem
