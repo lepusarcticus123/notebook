@@ -7,11 +7,10 @@ import { responseJson } from '~/server/utils/helper';
 export default defineEventHandler(async (event) => {
     //获取手机号和密码
     const body = await readBody(event);
-    console.log('111', body);
     //进行数据校验
     const schema = Joi.object({
         password: Joi.string().required(),
-        phone: Joi.string().pattern(/1\d{10}/),
+        phone: Joi.string().required(),
     });
     try {
         const value = await schema.validateAsync(body);
@@ -19,23 +18,23 @@ export default defineEventHandler(async (event) => {
     catch (err) {
         return responseJson(1, '参数错误', {})
     }
-    //查询数据库，如果手机号不存在返回手机号不存在或者密码错误
+    //密码进行加密加盐
     let salt = 'adhgsyudybhsah'
     let password = md5(md5(body.password) + salt)
     const con = getDB()
     try {
         //判断账号注册
-        const [rows] = await con().execute('select * from `users` where `phone`=? and `password`=?', [body.phone,password])
-        console.log('222', rows)
+        const [rows] = await con.execute('select * from `users` where `phone`=? and `password`=?', [body.phone,password])
         if (rows.length === 0) {
             return responseJson(1, '账号不存在或密码错误', {})
         }
         //释放连接
         await con.end()
         //如果已经注册过，并且密码正确，生成token，并返回客户端
-        let secret='wlyskzxfnr'//密钥
+        let secret='wlyskzxfnr'//私有密钥
+        //生成token
         let token=jwt.sign({
-            exp: Math.floor(Date.now() / 1000) + (60 * 60),//当前时间再加一小时
+            exp: Math.floor(Date.now() / 1000) + (60 * 60000),//当前时间再加1000小时
             data: {data:{uid:rows[0].id}}//将用户ID放入token的载荷中
           }, secret);
         //返回

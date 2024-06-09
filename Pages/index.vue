@@ -14,10 +14,7 @@
 </template>
 
 <script setup>
-// const {data:userData}=await userInfoFetch({})
-// console.log('userData',userData);
-const {data}=await useFetch('/api/user_post',{server:false})
-console.log(data)
+
 </script>
 <style scoped>
 

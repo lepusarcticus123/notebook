@@ -4,8 +4,20 @@
 import Components from 'unplugin-vue-components/vite'
 //引入unplugin-vue-components模块
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+//引入unplugin-icons模块
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  runtimeConfig:{
+    //私密
+    SecretId: process.env.SecretId, 
+    SecretKey: process.env.SecretKey, 
+    public:{
+
+    }
+  },
   //配置模块
   modules:['@pinia/nuxt','@pinia-plugin-persistedstate/nuxt'],
   //配置vite
@@ -17,8 +29,16 @@ export default defineNuxtConfig({
           AntDesignVueResolver({
             importStyle: 'less', // css in less
           })
+          IconsResolver({
+            prefix:'i',
+            enabledCollections:['ep','ant-design','mdi']
+          })
         ],
       })
+      Icons({
+        autoInstall: true,
+      })
+
     ],
     //配置css
     css: {
