@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 export default defineEventHandler(event=>{
     //获取token
     let token=getHeader(event,"Authorization")
+    console.log('token',token)
     if(token){
         //处理token
         token=token.replace("Bearer ","")

@@ -28,17 +28,16 @@ export default defineNuxtConfig({
         resolvers: [
           AntDesignVueResolver({
             importStyle: 'less', // css in less
-          })
+          }),
           IconsResolver({
             prefix:'i',
-            enabledCollections:['ep','ant-design','mdi']
+            enabledCollections:['ep','ant-design','mdi','ph','ion']
           })
-        ],
-      })
+        ]
+      }),
       Icons({
         autoInstall: true,
       })
-
     ],
     //配置css
     css: {

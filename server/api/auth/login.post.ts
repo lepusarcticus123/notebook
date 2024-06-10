@@ -42,7 +42,8 @@ export default defineEventHandler(async (event) => {
             accessToken:token,
             userInfo:{
                 nickname:rows[0].nickname,
-                phone:rows[0].phone
+                phone:rows[0].phone,
+                avatar:rows[0].avatar
             }
         })
     }

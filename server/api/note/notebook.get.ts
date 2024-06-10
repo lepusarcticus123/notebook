@@ -1,5 +1,5 @@
 import { getDB } from "~/server/utils/db/mysql"
-import { responseJson,getLoginUid } from '~/server/utils/helper';
+import { responseJson,getLoginUid} from '~/server/utils/helper';
 export default defineEventHandler(async (event) => {
     //判断用户是否登录
     let uid=getLoginUid(event)

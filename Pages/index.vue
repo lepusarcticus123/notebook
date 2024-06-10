@@ -6,11 +6,7 @@
         colorPrimary: '#607D8B',
       },
     }"></a-config-provider>
-  
-<hello-world />
-
-<NuxtLink to="/about">跳转到about</NuxtLink>
-<a-button type="primary">大家好</a-button>
+    <nuxt-link to="/note/write">write</nuxt-link>
 </template>
 
 <script setup>
