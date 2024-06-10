@@ -7,7 +7,7 @@
                 </NuxtLink>
             </div>
         </a-row>
-        <a-row type="flex" justify="center">
+        <a-flex justify="center">
             <a-col :span="16">
                 <a-row>
                     <a-col :span="12">
@@ -89,7 +89,7 @@
                 </a-row>
             </a-col>
 
-        </a-row>
+        </a-flex>
     </div>
 </template>
 
@@ -122,7 +122,7 @@ const login = () => {
         server: false,
         key: 'loginFetch'
     }).then(({ data }) => {
-        console.log('data', data)
+        // console.log('data', data)
         if (data.value.code === 1) {
             $message.error(data.value.msg)
             return;
@@ -137,7 +137,6 @@ const login = () => {
         const userInfoCookie = useCookie('userInfo', { maxAge: 60 * 60 * 24 * 7 })
         userInfoCookie.value = data.value.data.userInfo
     })
-
 }
 </script>
 
@@ -145,8 +144,6 @@ const login = () => {
 .login {
     background: #F1F1F1;
     height: 100vh;
-    float: right;
-
     .logo {
         margin-left: 50px;
         padding-top: 50px;

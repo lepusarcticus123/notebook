@@ -1,10 +1,7 @@
 import { callWithNuxt } from "#app"
-//typeScript的接口的定义
+
 interface myFetchOptions {
-  //它指定了请求头的类型(可选)
   headers?: Record<string, string>
-  //这是一个索引签名，它允许 myFetchOptions 接口中具有任意数量的其他属性，
-  //并且这些属性的类型可以是任意的。
   [key: string]: any
 }
 //useHttpFetch 自定义 Hook
