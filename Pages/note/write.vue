@@ -200,12 +200,31 @@ const getNotes = async (isServer, notebookId) => {
         throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
     }
     notesData.value = data.value.data.list
+    getNote(true,notesData.value[0].id)
     if (isServer) {
         isload.value = true
-        getNote(true, notesData.value[0].id)
+      getNote(true,notesData.value[0].id)
     }
-
 }
+//获取文章id获取文章信息
+const noteData = ref({})
+const getNote = async (isServer, noteId) => {
+    const { data } = await noteFetch({
+        method: 'GET',
+        server: isServer,
+        key: 'getNote',
+        params: {
+            noteId: noteId
+        }
+    })
+    if (data.value.code === 1) {
+        throw createError({ statusCode: 500, statusMessage: '服务器报错' })
+    }
+    noteData.value = data.value.data.list
+    console.log('noteData', noteData.value)
+    changeState()
+}
+
 
 //获取文集
 const currentNotebookIndex = ref(0)
@@ -238,7 +257,6 @@ const selectNotebook = (item, index) => {
     currentNoteIndex.value = 0
     getNotes(false, item.id)
 }
-
 //------------------文集处理---------------------------------
 //新建文集处理
 const showCreateNb = ref(false) //响应式变量
@@ -336,7 +354,7 @@ const selectNote = (item, index) => {
     isload.value = true
     getNote(false, item.id)
 }
-//---------------------文章处理----------------------
+//---------------------文章处理------------------------------
 //新建文章
 const createNote = () => {
     noteFetch({
@@ -381,24 +399,7 @@ const deleteNoteHandle = () => {
         getNotes(false, currentNotebookId.value)
     })
 }
-//获取文章id获取文章信息
-const noteData = ref({})
-const getNote = async (isServer, noteId) => {
-    const { data } = await noteFetch({
-        method: 'GET',
-        server: isServer,
-        key: 'getNote',
-        params: {
-            noteId: noteId
-        }
-    })
-    if (data.value.code === 1) {
-        throw createError({ statusCode: 500, statusMessage: '服务器报错' })
-    }
-    noteData.value = data.value.data.list
-    console.log('noteData', noteData.value)
-    changeState()
-}
+
 //文章操作
 
 //发布文章
