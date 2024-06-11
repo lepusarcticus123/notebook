@@ -1,8 +1,9 @@
 <template>
     <a-row style="height: 100vh">
-        <!--文集列表-->
+        <!--文集部分-->
         <a-col :span="4">
             <div class="notebook">
+                <!-- 新建文集部分 -->
                 <div class="notebook-top">
                     <a-button class="go-btn" type="primary" ghost shape="round" @click="navigateTo('/')">回首页</a-button>
                     <div @click="showModal" class="add-notebook"><i-mdi-plus-thick />新建文集</div>
@@ -14,12 +15,14 @@
                         </div>
                     </div>
                 </div>
+                <!-- 文集列表 -->
                 <div class="notebook-center">
                     <template v-if="notebookData.data" v-for="(notebookItem, notebookIndex) in notebookData.data.list"
                         :key="notebookItem.id">
                         <div class="notebook-c-item" :class="currentNotebookIndex === notebookIndex ? 'active' : ''"
                             @click='selectNotebook(notebookItem, notebookIndex)'>
                             <span>{{ notebookItem.name }}</span>
+                            <!-- 文集修改钮 -->
                             <a-dropdown v-if="currentNotebookIndex === notebookIndex" :trigger="['click']"
                                 overlayClassName="overlayClassName">
                                 <a style="color: #ffffff" @click.prevent>
@@ -48,8 +51,8 @@
                 </div>
             </div>
         </a-col>
+        <!--文章列表-->
         <a-col :span="5" class="note-writer-list">
-            <!--文章列表-->
             <div class="create" @click="createNote">
                 <i-ep-circle-plus-filled /> 新建文章
             </div>
@@ -203,34 +206,46 @@ const getNotes = async (isServer, notebookId) => {
     }
 
 }
+
 //获取文集
 const currentNotebookIndex = ref(0)
 //当前文集id
 const currentNotebookId = ref(0)
+//发请求接受文集列表
 const { data: notebookData, refresh: refresh } = await notebookFetch({
     method: 'GET',
     server: true,
     key: 'notebookFetch',
 },
 )
-// console.log('notebookData', notebookData.value.data.list)
+//处理报错
 if (notebookData.value.code === 1) {
     throw createError({ statusCode: 500, statusMessage: '服务器报错' })
 }
+//存在列表值后
 if (notebookData.value.data && notebookData.value.data.list.length > 0) {
     const firstNotebook = notebookData.value.data.list[0]
     currentNotebookId.value = firstNotebook.id
+    //请求文章
     getNotes(true, firstNotebook.id)
 }
 
+//选中文集
+const selectNotebook = (item, index) => {
+    currentNotebookIndex.value = index
+    currentNotebookId.value = item.id
+    notesData.value = []
+    currentNoteIndex.value = 0
+    getNotes(false, item.id)
+}
 
-
-
+//------------------文集处理---------------------------------
 //新建文集处理
 const showCreateNb = ref(false) //响应式变量
 const showModal = () => {
     showCreateNb.value = !showCreateNb.value;
 }
+//新建文集
 const notebookName = ref('')
 const addNotebook = () => {
     notebookFetch({
@@ -244,28 +259,22 @@ const addNotebook = () => {
             $message.error(data.value.msg)
             return
         }
-        showCreateNb.value = false
-        refresh()
-        notebookName.value = ''
+        showCreateNb.value = false  //收起新建文集狂
+        refresh()   //刷新文集列表
+        notebookName.value = ''//清空输入
     })
 }
-//选中文集
-const selectNotebook = (item, index) => {
-    currentNotebookIndex.value = index
-    currentNotebookId.value = item.id
-    notesData.value = []
-    currentNoteIndex.value = 0
-    getNotes(false, item.id)
 
-}
 //修改文集
 const editVisible = ref(false)
+//修改框
 const cur_notebook = ref({})
 const editnotebookModal = (item) => {
     cur_notebook.value = item
     editVisible.value = true
+    console.log('cur_notebook',cur_notebook.value)
 }
-
+//修改文集处理
 const editNotebookHandle = (e) => {
     notebookFetch({
         method: 'PUT',
@@ -278,23 +287,25 @@ const editNotebookHandle = (e) => {
     }).then(({ data }) => {
         if (data.value.code === 1) {
             $message.error(data.value.msg)
-            console.log('cur_notebook', cur_notebook)
+            // console.log('cur_notebook', cur_notebook)
             return
         }
+        //再次刷新文集列表
         refresh()
         cur_notebook.value = {}
         editVisible.value = false;
     })
-
 };
 
 //删除文集
 const deleteVisible = ref(false)
 const delete_notebook = ref({})
+//删除框
 const deleteNoteBook = (item) => {
     delete_notebook.value = item
     deleteVisible.value = true
 }
+//删除事件
 const deleteNotebookHandle = (e) => {
     notebookFetch({
         method: 'DELETE',
@@ -325,6 +336,7 @@ const selectNote = (item, index) => {
     isload.value = true
     getNote(false, item.id)
 }
+//---------------------文章处理----------------------
 //新建文章
 const createNote = () => {
     noteFetch({
