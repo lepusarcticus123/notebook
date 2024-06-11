@@ -37,7 +37,9 @@ export default defineEventHandler(async (event) => {
         if (rows2.affectedRows === 0) {
             return responseJson(1, '关联失败', {})
         }
-        return responseJson(0, '创建成功', {})
+        return responseJson(0, '创建成功', {
+            
+        })
     }
     catch (e) {
         //释放连接

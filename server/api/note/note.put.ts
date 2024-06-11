@@ -13,14 +13,15 @@ export default defineEventHandler(async (event) => {
     //进行数据校验
     const schema = Joi.object({
         noteId: Joi.number().required(),
-        title: Joi.string().required(),
-        content_md: Joi.string().required(),
-        state: Joi.string().required(),
+        title: Joi.string().allow(''),
+        content_md: Joi.string().allow(''),
+        state: Joi.number().required(),
     });
     try {
         const value = await schema.validateAsync(body);
     }
     catch (err) {
+        console.log('err',err)
         return responseJson(1, '参数错误', {})
     }
     const con = getDB()

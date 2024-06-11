@@ -29,13 +29,18 @@ export default defineEventHandler(async (event) => {
         // console.log('notebookRows',notebookRows)
         //查询文章
         let noteIdList:any=[]
+        if (notebookRows.length < 1){
+            return  responseJson(0,'无数据',{
+                list:[]
+            })
+        }
         //遍历文章ID
-        notebookRows.map(v=>{
+        notebookRows.map((v:any)=>{
             noteIdList.push(v.note_id)
         })
         //查询文章表
         const [notesRows] = await con.query(
-           'select * from `notes` where `uid`=? and id in(?)',
+            'SELECT id,title FROM `notes` WHERE `uid`=? AND id IN (?) ORDER BY `id` DESC',
             [uid,noteIdList])
         //释放连接
         await con.end()//释放连接
@@ -44,6 +49,7 @@ export default defineEventHandler(async (event) => {
         })
     }
     catch (e) {
+        console.log(e)
         //释放连接
         await con.end()
         setResponseStatus(event,500)

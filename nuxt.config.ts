@@ -10,16 +10,17 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  runtimeConfig:{
+  runtimeConfig: {
     //私密
-    SecretId: process.env.SecretId, 
-    SecretKey: process.env.SecretKey, 
-    public:{
-
+    SecretId: process.env.SecretId,
+    SecretKey: process.env.SecretKey,
+    public: {
+      Bucket: process.env.Bucket,
+      Region: process.env.Region,
     }
   },
   //配置模块
-  modules:['@pinia/nuxt','@pinia-plugin-persistedstate/nuxt'],
+  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'],
   //配置vite
   vite: {
     plugins: [
@@ -30,8 +31,8 @@ export default defineNuxtConfig({
             importStyle: 'less', // css in less
           }),
           IconsResolver({
-            prefix:'i',
-            enabledCollections:['ep','ant-design','mdi','ph','ion']
+            prefix: 'i',
+            enabledCollections: ['ep', 'ant-design', 'mdi', 'ph', 'ion']
           })
         ]
       }),

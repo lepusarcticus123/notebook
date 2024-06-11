@@ -64,3 +64,15 @@ export const loginFetch = (opt: myFetchOptions) => {
 export const notebookFetch = (opt: myFetchOptions) => {
   return useHttpFetch('/api/note/notebook', opt)
 }
+//获取文章
+export const notesFetch = (opt: myFetchOptions) => {
+  return useHttpFetch('/api/note/notes', opt)
+}
+//文章接口
+export const noteFetch = (opt: myFetchOptions) => {
+  return useHttpFetch('/api/note/note', opt)
+}
+//文章图片上传腾讯云
+export const cosAuthFetch = (opt: myFetchOptions) => {
+  return useHttpFetch('/api/cos/auth', opt)
+}

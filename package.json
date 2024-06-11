@@ -14,6 +14,7 @@
     "@bytemd/vue-next": "^1.21.0",
     "@pinia/nuxt": "^0.5.1",
     "ant-design-vue": "^4.2.1",
+    "cos-js-sdk-v5": "^1.8.0",
     "cos-nodejs-sdk-v5": "^2.14.0",
     "joi": "^17.13.1",
     "jsonwebtoken": "^9.0.2",
@@ -22,6 +23,8 @@
     "mysql2": "^3.10.0",
     "nuxt": "^3.11.2",
     "pinia": "^2.1.7",
+    "qcloud-cos-sts": "^3.1.0",
+    "uuid": "^10.0.0",
     "vue": "^3.4.27",
     "vue-router": "^4.3.2"
   },

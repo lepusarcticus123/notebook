@@ -10,9 +10,11 @@ export default defineEventHandler(async (event) => {
     const con = getDB()
     try {
         //获取用户文集
-        const [rows] = await con.execute('select * from `notebooks` where `uid`=?', [uid])
+        const [rows] = await con.execute('select * from `notebooks` where `uid`=? order by `id` desc', [uid])
         await con.end()//释放连接
-        return responseJson(0,'获取文集成功',{})
+        return responseJson(0,'获取文集成功',{
+            list:rows
+        })
     }
     catch (e) {
         //释放连接
