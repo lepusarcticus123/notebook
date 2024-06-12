@@ -76,3 +76,15 @@ export const noteFetch = (opt: myFetchOptions) => {
 export const cosAuthFetch = (opt: myFetchOptions) => {
   return useHttpFetch('/api/cos/auth', opt)
 }
+//获取文章列表
+export const homeNotesFetch = (opt: myFetchOptions) => {
+  return useHttpFetch('/api/home/notes', opt)
+}
+//获取文章详情
+export const noteDetailFetch = (opt: myFetchOptions) => {
+  return useHttpFetch('/api/home/detail', opt)
+}
+//上传头像
+export const uploadCosFetch = (opt: myFetchOptions) => {
+  return useHttpFetch('/api/uploadCos', opt)
+}

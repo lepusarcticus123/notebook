@@ -1,4 +1,5 @@
 <template>
+    
     <a-row style="height: 100vh">
         <!--文集部分-->
         <a-col :span="4">
@@ -344,6 +345,8 @@ const deleteNotebookHandle = (e) => {
     })
 
 }
+
+//文章选择
 //当前文章索引
 const currentNoteIndex = ref(0)
 //选中文章
@@ -422,7 +425,6 @@ const notePush = () => {
         if (noteData.value.state === 2) {
             $message.success('发布成功')
         }
-
         getNotes(false, currentNotebookId.value)
         changeState()
     })
@@ -440,6 +442,7 @@ const debounce = (func, delay) => {
         }, delay)
     }
 }
+//防抖保存标题
 const save = () => {
     if (isload.value) {
         isload.value = false
@@ -448,6 +451,7 @@ const save = () => {
     noteData.value.state=noteData.value.state===2?3:1
     notePush()
 }
+//防抖保存内容
 const saveContent = debounce((e) => {
     if (isload.value) {
         isload.value = false
@@ -457,6 +461,7 @@ const saveContent = debounce((e) => {
     noteData.value.state=noteData.value.state===2?3:1
     notePush()
 },1000)
+
 const handleChange = (v)=>{
     saveContent(v)
 }
@@ -523,8 +528,6 @@ const uploadImages = async (files) => {
             return {
                 url: "//" + res.Location
             }
-
-
         })
     )
 
