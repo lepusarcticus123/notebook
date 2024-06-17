@@ -1,4 +1,3 @@
-//pages/user/settings
 <template>
     <nav-bar></nav-bar>
     <a-row type="flex" justify="center" class="settings">
@@ -30,7 +29,6 @@
                                 </a-avatar>
                             </div>
                             <div>
-                                <!--                <a-button  shape="round" ghost>更改头像</a-button>-->
                                 <a-upload name="avatar" :show-upload-list="false" :before-upload="beforeUpload">
                                     <a-button shape="round" ghost>更改头像</a-button>
                                 </a-upload>

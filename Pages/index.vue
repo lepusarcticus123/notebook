@@ -1,13 +1,14 @@
 <template>
-  <!-- <a-config-provider :theme="{
+    <!-- 默认颜色配置 -->
+  <a-config-provider :theme="{
     token: {
       colorPrimary: '#607D8B',
     },
-  }"></a-config-provider> -->
+  }"></a-config-provider>
   <a-layout style="height: 100vh;background-color: #ffffff">
     <nav-bar />
     <a-layout-content>
-      <a-row type="flex" justify="center" style="margin-top: 60px">
+      <a-flex justify="center" style="margin-top: 60px">
         <a-col :span="12">
           <a-row>
             <!--文章列表-->
@@ -26,7 +27,7 @@
             </a-col>
           </a-row>
         </a-col>
-      </a-row>
+      </a-flex>
     </a-layout-content>
   </a-layout>
 </template>
@@ -41,14 +42,14 @@ useHead({
     {name:'keywords',content:'简书,简书官网,图文编辑软件,简书下载,图文创作,创作软件,原创社区,小说,散文,写作,阅读'}
   ]
 })
-
 import { homeNotesFetch } from "~/composables/useHttpFetch"
 //获取文章列表数据
 const page = ref(1)
 const pageSize = ref(8)
-//是否加载
+//是否加载,以及没有数据
 const loading = ref(false)
 const noData=ref(false)
+//获取所有文章
 const { data: notelistData } = await homeNotesFetch({
   method: 'GET',
   server: true,
@@ -62,17 +63,21 @@ if (notelistData.value.code === 1) {
   throw createError({ statusCode: 500, statusMessage: '服务器报错' })
 }
 loading.value = true
-//上拉加载的分页
+//上拉加载
 const isBottom = () => {
+  //监控滚轮高度
   const scrollY = window.scrollY
+  //窗口高度
   const windowHeight = window.innerHeight
-  //滚动高度
+  // 获取整个文档的总高度
   const pageHeight = document.documentElement.scrollHeight
+  // 检查滚动距离加上窗口高度是否大于或等于页面总高度
   return (scrollY + windowHeight) >= pageHeight
 }
 const loadMore = () => {
   window.addEventListener('scroll', async () => {
     if (isBottom()) {
+      //设置加载状态
       loading.value = false
       page.value++
       homeNotesFetch({
@@ -89,7 +94,6 @@ const loadMore = () => {
         if(data.value.data.list.length<1){
           noData.value=true
         }
-        console.log('data',data.value.data.list)
         notelistData.value.data.list.push(...data.value.data.list)
       })
     }
@@ -98,9 +102,8 @@ const loadMore = () => {
 onMounted(()=>{
   loadMore()
 })
-
 //模拟点赞
-const myLike=(like,index,flag)=>{
+const myLike=(like:any,index:any,flag:any)=>{
   if(flag){
     like=like-1
     notelistData.value.data.list[index].like=like

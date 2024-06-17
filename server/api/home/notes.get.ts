@@ -13,13 +13,11 @@ export default defineEventHandler(async (event)=>{
             v.subTitle = trimMarkdown(v.content_md,300)
             v.cover = getFirstImage(v.content_md)
             v.like = 12
-            v.content_md = ''
+            // v.content_md = ''
             v.flag = false
         })
-
         //释放连接
         await con.end()
-
         return  responseJson(0,'获取文章成功哦',{
             list:notesData
         })

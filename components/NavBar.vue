@@ -1,4 +1,3 @@
-//components/NavBar.vue
 <template>
   <a-layout-header class="header">
     <a-row type="flex" justify="center">
@@ -6,12 +5,11 @@
         <a-row type="flex" justify="space-between">
           <a-col :span="4">
             <NuxtLink to="/">
-
               <img class="logo" alt="logo" src="/images/logo.png" />
             </NuxtLink>
           </a-col>
-          <a-col :span="16">
-            <a-row type="flex"  align="middle">
+          <a-col :span="15">
+            <a-row type="flex" align="middle">
               <a-col :span="3" class="nav-item ">
                 <NuxtLink to="/" class="active"> <i-mdi-compass-outline /> 发现</NuxtLink>
               </a-col>
@@ -41,17 +39,21 @@
               </a-col>
             </a-row>
           </a-col>
-          <a-col :span="4">
+          <a-col :span="5">
             <a-row type="flex" justify="space-around">
               <a-col>
-                <a-dropdown>
+                <div v-if="!userInfo">
+                  <a-button type="text" @click="navigateTo('/login')">登录</a-button>
+                  <a-button shape="round" @click="navigateTo('/sign_up')">注册</a-button>
+                </div>
+                <a-dropdown v-else>
                   <div class="avatar">
                     <a-avatar :size="40">
                       <template #icon>
-                        <img :src="avatar?avatar:'/images/default-avatar.png'"  alt="avatar">
+                        <img :src="userInfo ? userInfo.avatar : '/images/default-avatar.png'" alt="avatar">
                       </template>
                     </a-avatar>
-                    <i-ant-design-caret-down-filled/>
+                    <i-ant-design-caret-down-filled />
                   </div>
                   <template #overlay>
                     <a-menu>
@@ -64,7 +66,7 @@
                       <a-menu-item>
                         <NuxtLink to="/user/settings" class="select-user"><i-ep-setting /> 设置</NuxtLink>
                       </a-menu-item>
-                      <a-menu-item>
+                      <a-menu-item @click="logout">
                         <NuxtLink class="select-user"><i-ant-design-logout-outlined /> 退出</NuxtLink>
                       </a-menu-item>
                     </a-menu>
@@ -72,7 +74,8 @@
                 </a-dropdown>
               </a-col>
               <a-col>
-                <a-button  @click="navigateTo('/note/write')" shape="round" type="primary" style="height: 40px;font-size: 16px">
+                <a-button @click="navigateTo('/note/write')" shape="round" type="primary"
+                  style="height: 40px;font-size: 16px">
                   <i-mdi-feather style="margin-right: 4px;font-size: 16px;vertical-align: middle;" />
                   写文章
                 </a-button>
@@ -88,13 +91,18 @@
 <script lang="ts" setup>
 import { useUserInfo } from '~/composables/state';
 const keyword = ref('')
-const avatar=useUserInfo().value.avatar
-
+const userInfo = useUserInfo().value
+//退出登录
+const logout = () => {
+  const useUserInfoCookie = useCookie('userInfo')
+  useUserInfoCookie.value = null
+  window.location.reload()
+}
 
 </script>
 
 <style lang="less" scoped>
-.header{
+.header {
   background-color: #ffffff;
   border-bottom: 1px solid #F0F0F0;
   height: 56px !important;
@@ -102,29 +110,36 @@ const avatar=useUserInfo().value.avatar
   position: fixed;
   width: 100%;
   z-index: 9999;
-  .logo{
-    height:30px;
+
+  .logo {
+    height: 30px;
   }
-  .nav-item{
-    font-size: 18px;
-    a{
+
+  .nav-item {
+    font-size: 1vw;
+
+    a {
       color: #333333;
       display: flex;
       align-items: center;
-      svg{
+
+      svg {
         margin-right: 4px;
       }
     }
-    .active{
+
+    .active {
       color: #ea6f5a !important;
     }
-    .search-box{
+
+    .search-box {
       border-radius: 30px;
       background-color: #EEEEEE;
       height: 40px;
       padding: 0 10px;
     }
   }
+
   .avatar {
     svg {
       font-size: 12px;
@@ -132,18 +147,20 @@ const avatar=useUserInfo().value.avatar
     }
   }
 }
-
 </style>
 
 <style lang="less">
-.ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title {
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
   padding: 15px 50px 15px 20px;
 }
+
 .select-user {
   display: flex;
   align-items: center;
   color: #333;
-  svg{
+
+  svg {
     color: #E05344;
     margin-right: 15px;
     font-size: 18px;

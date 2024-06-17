@@ -128,7 +128,8 @@ const login = () => {
             return;
         } else {
             $message.success(data.value.msg)
-            navigateTo('/')
+            // navigateTo('/')
+            window.location.href='/'
         }
         //存入cookie
         const accessTokenCookie = useCookie('accessToken', { maxAge: 60 * 60 * 24 * 7 })

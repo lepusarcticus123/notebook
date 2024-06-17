@@ -17,10 +17,10 @@
           </NuxtLink>
           <div class="authors-info">
             <div class="authors-name">
-              <span>小埋</span>
+              <span>小张</span>
               <NuxtLink>+ 关注</NuxtLink>
             </div>
-            <p>写了269.3k字 · 31.6k喜欢</p>
+            <p>写了26.3k字 · 3.6k喜欢</p>
           </div>
         </div>
       </div>

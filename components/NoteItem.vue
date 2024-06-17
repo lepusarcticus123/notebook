@@ -20,13 +20,12 @@
 </template>
 
 <script setup>
-import { func } from 'joi';
-
 const props = defineProps(["note", "index"])
-console.log('props', props)
+//定义组件可以发出的自定义事件
 const emit=defineEmits(['like'])
 //模拟点赞
 function likeClick(){
+    //传递like事件
     emit('like',props.note.like,props.index,props.note.flag)
 }
 const lists = reactive({
