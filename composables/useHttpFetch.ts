@@ -4,10 +4,29 @@ interface myFetchOptions {
   headers?: Record<string, string>
   [key: string]: any
 }
+const getBaseUrl=()=>{
+  let baseURL='';
+  if(process.env.NODE_ENV === 'production'){
+    //生产环境
+    if(process.server){
+      //SSR请求内网
+      baseURL='http://127.0.0.1:3000/'
+    }else{
+      //客户端请求外网
+      baseURL='http://jbook.XXX.com/'
+    }
+    return baseURL
+  }
+  else if(process.env.NODE_ENV === 'development'){
+    //本地开发环境
+    baseURL='http://127.0.0.1:3000/'
+  }
+}
 //useHttpFetch 自定义 Hook
 export const useHttpFetch = (url: string, opt: myFetchOptions) => {
   //token
   const accessToken = useCookie('accessToken')
+  
   //添加请求头和token
   const headers = {
     ...opt.headers,
@@ -19,7 +38,8 @@ export const useHttpFetch = (url: string, opt: myFetchOptions) => {
 
   return useFetch(url, {
     ...opt,
-    baseURL: 'http://localhost:3000/',//基本url
+    // baseURL: 'http://localhost:3000/',//基本url
+    baseURL:getBaseUrl(),
     onRequest({ request, options }) {
       //处理请求数据
       console.log('request', request)
